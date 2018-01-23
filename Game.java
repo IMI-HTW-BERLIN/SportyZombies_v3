@@ -22,6 +22,7 @@ public class Game
     private Parser parser;
     private Location currentLocation;
     private ArrayList <Location> history;
+    private Player player;
     
     /**
      * Create the game and initialise its internal map.
@@ -32,6 +33,7 @@ public class Game
         parser = new Parser();
         this.currentLocation = currentLocation;
         history= new ArrayList<>();
+        player = new Player();
     }
 
     /**
@@ -174,6 +176,14 @@ public class Game
             case BACK:
                  back();
                  break;
+            
+            case TAKE:
+                 take(command);
+                 break;
+                 
+            case DROP:
+                 drop(command);
+                 break;     
                 
             case UNKNOWN:
                 System.out.println("I don't know what you mean...");
@@ -285,7 +295,7 @@ public class Game
      
     private void back(){
         if(history.size()>1 ){
-        int i;;
+        int i;
         i= history.size() -1;
         
         currentLocation= history.get(i-1);
@@ -297,5 +307,37 @@ public class Game
         System.out.println(currentLocation.getLongDescription());
         }
       }
+      
+    private void take(Command command){
+        if (!command.hasSecondWord()) {
+            System.out.println("What do you want to take, Sir/Ma'am?");
+        }else{
+            if(currentLocation.containsItem(command.getSecondWord())){
+                if(player.addItem(currentLocation.takeItem(command.getSecondWord()))){
+                    System.out.println("You took: " + command.getSecondWord());
+                }else{
+                    System.out.println("You are carrying too much!");
+                }
+            }else{
+                System.out.println("There is no such item here!");
+            }
+        }
+    }
+    
+    private void drop(Command command){
+        if (!command.hasSecondWord()) {
+            System.out.println("What do you want to drop, Sir/Ma'am?");
+        }else if(command.getSecondWord().equalsIgnoreCase("all")){
+            currentLocation.addItems(player.dropAll());
+        }else{
+            if(player.hasItem(command.getSecondWord())){
+                currentLocation.addItem(player.dropItem(command.getSecondWord()));
+            }else{
+                System.out.println("You don't have that item :(");
+            }
+        }
+    }
+    
+    
      
 }

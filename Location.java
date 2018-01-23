@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 /**
  * Class Location - a Location in an adventure game.
  *
@@ -36,6 +37,12 @@ public class Location
     {
         items.add(item);
     }
+    
+    public void addItems (List<Item> item) 
+    {
+        items.addAll(item);
+    }
+    
     /**
      * Add an exit to the Location.
      */
@@ -85,6 +92,25 @@ public class Location
         }
         
         return labelItems;
+    }
+    
+    public boolean containsItem(String itemName){
+        for(Item item: items){
+            if(item.getName().equalsIgnoreCase(itemName)) return true;
+        }
+        return false;
+    }
+    
+    public Item takeItem(String itemName){
+        Item foundItem = null;
+        for(Item item: items){
+            if(item.getName().equalsIgnoreCase(itemName)){
+                foundItem = item;
+                items.remove(item);
+                break;
+            }
+        }
+        return foundItem;
     }
     
     /**

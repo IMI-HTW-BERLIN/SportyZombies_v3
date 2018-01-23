@@ -14,7 +14,9 @@ public enum CommandWord
     OPEN("open"), 
     SLEEP("sleep"),
     BACK("back"),
-    UNKNOWN(null);
+    TAKE("take"),
+    DROP("drop"),
+    UNKNOWN("");
     
     
     private final String command;
