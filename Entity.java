@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public abstract class Entity
 {
-    protected Location location;
-    protected Set<Item> inventory;
+    private Location location;
+    private Set<Item> inventory;
     
     public Entity() {
-        inventory = new HashSet<>();
+        this.inventory = new HashSet<>();
     }
     
     /**
@@ -26,6 +26,14 @@ public abstract class Entity
      */
     public void setLocation(Location location) {
         this.location = location;
+    }
+    
+    /**
+     * Gets the inventory of the entity.
+     * @return The entity's inventory
+     */
+    public Set<Item> getInventory() {
+        return this.inventory;
     }
     
     /**

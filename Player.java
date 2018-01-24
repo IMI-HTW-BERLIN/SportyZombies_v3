@@ -20,9 +20,9 @@ public class Player extends Entity
     }
     
     public boolean addItem(Item item){
-        if(item.getWeight() + inventory.stream().map(i -> i.getWeight()).
-        reduce(0, (item1, item2) -> item1 + item2) <= strength){
-            inventory.add(item);
+        if(item.getWeight() + getInventory().stream()
+            .mapToInt(i -> i.getWeight()).sum() <= strength){
+            addItem(item);
             return true;
         }
         return false;
@@ -30,11 +30,11 @@ public class Player extends Entity
     
     public String listItems() {
         StringBuilder sb = new StringBuilder("Inventory:\n==========\n");
-        for (Item item : inventory) {
+        for (Item item : getInventory()) {
             sb.append(item.getName()).append("\n");
         }
         sb.append("\nTotal weight: ").append(
-            inventory.stream().mapToInt(i -> i.getWeight()).sum()
+            getInventory().stream().mapToInt(i -> i.getWeight()).sum()
         );
         return sb.toString();
     }
