@@ -50,7 +50,7 @@ public class Game
         football = new Item("football",500,"You see a football not far away.");
         hammer = new Item("hammer_throw_hammer",7000,"Last but not least, a beautiful hammer!");
         pole = new Item("pole_vault_pole",5000,"Someone obviously sneak a pole vault pole in there.");
-        flag = new Item("checkered flag",300,"Oh, there is also a checkered flag");
+        flag = new Item("checkered_flag",300,"Oh, there is also a checkered flag");
         pylon = new Item("pylons",300,"You see just a buch of pylons");
         discus = new Item("discus",2000,"Next to all of this there is also a discus.");
         spear = new Item("spear",800,"In a pile you also notcie a spear.");
