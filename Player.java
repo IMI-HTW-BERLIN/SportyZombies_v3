@@ -1,6 +1,8 @@
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Stack;
+
 /**
  * Write a description of class Player here.
  *
@@ -11,12 +13,15 @@ public class Player
 {
     private HashSet<Item> inventory;
     private int strength;
+    private Location currentLocation;
+    private Stack<Location> history;
 
     /**
      * Constructor for objects of class Player
      */
     public Player(){
         inventory = new HashSet<>();
+        history = new Stack<>();
         strength = 10000;
     }
     
@@ -52,5 +57,36 @@ public class Player
         List<Item> itemList = new ArrayList<> (inventory);
         inventory.removeAll(inventory);
         return itemList;
+    }
+    
+    public String listItems() {
+        StringBuilder sb = new StringBuilder("Inventory:\n==========\n");
+        for (Item item : inventory) {
+            sb.append(item.getName()).append("\n");
+        }
+        sb.append("\nTotal weight: ").append(
+            inventory.stream().mapToInt(i -> i.getWeight()).sum()
+        );
+        return sb.toString();
+    }
+    
+    public Location getLocation() {
+        return currentLocation;
+    }
+    
+    public void setLocation(Location location) {
+        this.currentLocation = location;
+    }
+    
+    public void getLocationFromHistory() {
+        setLocation(history.pop());
+    }
+    
+    public void addLocationToHistory() {
+        history.push(getLocation());
+    }
+    
+    public boolean isHistoryEmpty() {
+        return history.empty();
     }
 }

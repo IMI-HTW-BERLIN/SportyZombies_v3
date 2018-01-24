@@ -16,6 +16,7 @@ public enum CommandWord
     BACK("back"),
     TAKE("take"),
     DROP("drop"),
+    ITEMS("items"),
     UNKNOWN("");
     
     

@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  *  This class is the main class of the "SportyZombies" application. 
  *  "SportyZombies" is a very simple, text based adventure game. Users 
@@ -20,8 +18,6 @@ import java.util.ArrayList;
 public class Game 
 {
     private Parser parser;
-    private Location currentLocation;
-    private ArrayList <Location> history;
     private Player player;
     
     /**
@@ -29,11 +25,9 @@ public class Game
      */
     public Game() 
     {
-        createLocations();
         parser = new Parser();
-        this.currentLocation = currentLocation;
-        history= new ArrayList<>();
         player = new Player();
+        createLocations();
     }
 
     /**
@@ -42,7 +36,7 @@ public class Game
     private void createLocations()
     {
         Location trackN, trackW, trackS, trackE, soccer, longJump, shed;
-        Item football, soccerball, shotball, throwingball, spear, discus, pylon, flag, pole, hammer ;
+        Item football, soccerball, shotball, throwingball, spear, discus, pylon, flag, pole, hammer;
         // create the Locations
         trackN = new Location("on the northern part of the tartan track");
         trackW = new Location("on the western part of the tartan track");
@@ -54,49 +48,47 @@ public class Game
         
         soccerball = new Item("soccerball",500,"It looks like there is also a soccerball. How exithing!");
         football = new Item("football",500,"You see a football not far away.");
-        hammer = new Item("hammer throw hammer",7000,"Last but not least, a beautiful hammer!");
-        pole = new Item("pole vault pole",5000,"Someone obviously sneak a pole vault pole in there.");
+        hammer = new Item("hammer_throw_hammer",7000,"Last but not least, a beautiful hammer!");
+        pole = new Item("pole_vault_pole",5000,"Someone obviously sneak a pole vault pole in there.");
         flag = new Item("checkered flag",300,"Oh, there is also a checkered flag");
         pylon = new Item("pylons",300,"You see just a buch of pylons");
-        discus = new Item("discus",2000,"Next to all of this there is also a discuss.");
+        discus = new Item("discus",2000,"Next to all of this there is also a discus.");
         spear = new Item("spear",800,"In a pile you also notcie a spear.");
-        throwingball = new Item("throwing ball",200,"And a throwingball.");
-        shotball = new Item("shot put ball",5000,"You recognise a shot put ball amongst everything else.");
-        
-        
-        
-        
-       
-        
-        
+        throwingball = new Item("throwing_ball",200,"And a throwingball.");
+        shotball = new Item("shot_put_ball",5000,"You recognise a shot put ball amongst everything else.");
         
         // initialise Location exits
         trackN.addExit("west", trackW);
         trackN.addExit("east", trackE);
         trackN.addExit("south", soccer);
+        
         trackN.addItem(pylon);
         
         trackW.addExit("north", trackN);
         trackW.addExit("east", soccer);
         trackW.addExit("south", trackS);
+        
         trackW.addItem(flag);
         trackW.addItem(pylon);
         
         trackE.addExit("north", trackN);
         trackE.addExit("west", soccer);
         trackE.addExit("south", trackS);
+        
         trackE.addItem(pylon);
         
         trackS.addExit("north", soccer);
         trackS.addExit("east", trackE);
         trackS.addExit("west", trackW);
         trackS.addExit("south", longJump);
+        
         trackS.addItem(pylon);
         
         soccer.addExit("north", trackN);
         soccer.addExit("east", trackE);
         soccer.addExit("west", trackW);
         soccer.addExit("south", trackS);
+        
         soccer.addItem(football);
         soccer.addItem(soccerball);
         soccer.addItem(spear);
@@ -105,34 +97,27 @@ public class Game
         longJump.addExit("east", shed);
 
         shed.addExit("west", longJump);
+        
         shed.addItem(shotball);
         shed.addItem(throwingball);
         shed.addItem(discus);
         shed.addItem(pole);
         shed.addItem(hammer);
 
-        currentLocation = soccer;
-        
-        
+        player.setLocation(soccer);
     }
-    private void addToHistory(){
-        history.add(currentLocation);
-    }
+    
     /**
      *  Main play routine.  Loops until end of play.
      */
     public void play() 
     {            
         printWelcome();
-        history.add(currentLocation);
-
         
-                
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
-            
         }
         System.out.println("Thank you for playing.  Good bye.");
         
@@ -174,16 +159,20 @@ public class Game
                 break;
             
             case BACK:
-                 back();
-                 break;
+                back();
+                break;
             
             case TAKE:
-                 take(command);
-                 break;
+                take(command);
+                break;
                  
             case DROP:
-                 drop(command);
-                 break;     
+                drop(command);
+                break;
+                
+            case ITEMS:
+                items();
+                break;
                 
             case UNKNOWN:
                 System.out.println("I don't know what you mean...");
@@ -203,8 +192,7 @@ public class Game
         System.out.println("SportyZombies is a new, incredible horror adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println(currentLocation.getLongDescription());
-        history.add(currentLocation);
+        System.out.println(player.getLocation().getLongDescription());
     }
 
     // implementations of user commands:
@@ -240,16 +228,15 @@ public class Game
         // Try to leave current Location.
         Location nextLocation = null;
         
-        nextLocation = currentLocation.getExit(direction);
+        nextLocation = player.getLocation().getExit(direction);
 
         if (nextLocation == null) {
             System.out.println("There is no door!");
         }
         else {
-            
-            currentLocation = nextLocation;
-            System.out.println(currentLocation.getLongDescription());
-            addToHistory();
+            player.addLocationToHistory();
+            player.setLocation(nextLocation);
+            System.out.println(nextLocation.getLongDescription());
         }
     }
 
@@ -273,7 +260,7 @@ public class Game
      * Look around. Prints out the long description of the current location.
      */
     private void look(){
-        System.out.println(currentLocation.getItems() );
+        System.out.println(player.getLocation().getItems() );
     }
     
     /**
@@ -294,17 +281,11 @@ public class Game
     }
      
     private void back(){
-        if(history.size()>1 ){
-        int i;
-        i= history.size() -1;
-        
-        currentLocation= history.get(i-1);
-        System.out.println(currentLocation.getLongDescription());
-        history.remove(history.size()-1);
-        //history.remove(history.size()-1);
-       }else{
-        currentLocation= history.get(0);
-        System.out.println(currentLocation.getLongDescription());
+        if(player.isHistoryEmpty()){
+            System.out.println("You are at the start!");
+        }else{
+            player.getLocationFromHistory();
+            System.out.println(player.getLocation().getLongDescription());
         }
       }
       
@@ -312,8 +293,8 @@ public class Game
         if (!command.hasSecondWord()) {
             System.out.println("What do you want to take, Sir/Ma'am?");
         }else{
-            if(currentLocation.containsItem(command.getSecondWord())){
-                if(player.addItem(currentLocation.takeItem(command.getSecondWord()))){
+            if(player.getLocation().containsItem(command.getSecondWord())){
+                if(player.addItem(player.getLocation().takeItem(command.getSecondWord()))){
                     System.out.println("You took: " + command.getSecondWord());
                 }else{
                     System.out.println("You are carrying too much!");
@@ -328,16 +309,18 @@ public class Game
         if (!command.hasSecondWord()) {
             System.out.println("What do you want to drop, Sir/Ma'am?");
         }else if(command.getSecondWord().equalsIgnoreCase("all")){
-            currentLocation.addItems(player.dropAll());
+            player.getLocation().addItems(player.dropAll());
         }else{
             if(player.hasItem(command.getSecondWord())){
-                currentLocation.addItem(player.dropItem(command.getSecondWord()));
+                player.getLocation().addItem(player.dropItem(command.getSecondWord()));
             }else{
                 System.out.println("You don't have that item :(");
             }
         }
     }
     
-    
+    private void items() {
+        System.out.println(player.listItems());
+    }
      
 }
