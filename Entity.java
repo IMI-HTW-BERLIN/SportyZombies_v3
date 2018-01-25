@@ -46,6 +46,20 @@ public abstract class Entity
     }
     
     /**
+     * Gets an item from the inventory.
+     * @param itemName The name of the item to get
+     * @return The item
+     */
+    public Item getItem(String itemName) {
+        for (Item item : inventory) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return item;
+            }
+        }
+        return null;
+    }
+    
+    /**
      * Checks if the entity has the specified item in its inventory.
      * @param itemName The item to check for
      * @return True if the item was found

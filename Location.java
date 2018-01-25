@@ -82,6 +82,16 @@ public class Location
         
         return allExits;
     }
+    
+    public Item getItem(String itemName) {
+        for (Item item : items) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return item;
+            }
+        }
+        return null;
+    }
+    
     public String getItems(){
         String labelItems = "Items: ";
         for(Item item: items){

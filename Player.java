@@ -20,9 +20,8 @@ public class Player extends Entity
     }
     
     public boolean addItem(Item item){
-        if(item.getWeight() + getInventory().stream()
-            .mapToInt(i -> i.getWeight()).sum() <= strength){
-            addItem(item);
+        if(item.getWeight() + getInventoryWeight() <= strength){
+            super.addItem(item);
             return true;
         }
         return false;
@@ -33,9 +32,7 @@ public class Player extends Entity
         for (Item item : getInventory()) {
             sb.append(item.getName()).append("\n");
         }
-        sb.append("\nTotal weight: ").append(
-            getInventory().stream().mapToInt(i -> i.getWeight()).sum()
-        );
+        sb.append("\nTotal weight: ").append(getInventoryWeight());
         return sb.toString();
     }
     
@@ -49,5 +46,9 @@ public class Player extends Entity
     
     public boolean isHistoryEmpty() {
         return history.empty();
+    }
+    
+    private int getInventoryWeight() {
+        return getInventory().stream().mapToInt(i -> i.getWeight()).sum();
     }
 }

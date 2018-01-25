@@ -18,6 +18,7 @@ public enum CommandWord
     DROP("drop"),
     ITEMS("items"),
     ASK("ask"),
+    LOOKAT("lookat"),
     UNKNOWN("");
     
     

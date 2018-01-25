@@ -180,6 +180,10 @@ public class Game
                 ask(command);
                 break;
                 
+            case LOOKAT:
+                lookat(command);
+                break;
+                
             case UNKNOWN:
                 System.out.println("I don't know what you mean...");
                 return false;
@@ -343,5 +347,27 @@ public class Game
         }
         
         System.out.println(zombie.getSpeak());
+    }
+    
+    private void lookat(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Look at what?");
+            return;
+        }
+        
+        String itemName = command.getSecondWord();
+        
+        if (!player.hasItem(itemName) && !player.getLocation().containsItem(itemName)) {
+            System.out.println("There is no " + itemName + " to look at!");
+            return;
+        }
+        
+        if (player.hasItem(itemName)) {
+            System.out.println(player.getItem(itemName).getDescription());
+            return;
+        } else if (player.getLocation().containsItem(itemName)) {
+            System.out.println(player.getLocation().getItem(itemName).getDescription());
+            return;
+        }
     }
 }
