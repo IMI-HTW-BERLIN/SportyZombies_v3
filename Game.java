@@ -64,6 +64,8 @@ public class Game
         
         trackN.addItem(pylon);
         
+        new Zombie("Rotten_Zombie", trackN, "OOOOAAARRGGHH!!!");
+        
         trackW.addExit("north", trackN);
         trackW.addExit("east", soccer);
         trackW.addExit("south", trackS);
@@ -174,6 +176,10 @@ public class Game
                 items();
                 break;
                 
+            case ASK:
+                ask(command);
+                break;
+                
             case UNKNOWN:
                 System.out.println("I don't know what you mean...");
                 return false;
@@ -237,6 +243,7 @@ public class Game
             player.addLocationToHistory();
             player.setLocation(nextLocation);
             System.out.println(nextLocation.getLongDescription());
+            System.out.println(Zombie.getZombiesInLocation(nextLocation));
         }
     }
 
@@ -322,5 +329,19 @@ public class Game
     private void items() {
         System.out.println(player.listItems());
     }
-     
+    
+    private void ask(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Ask whom?");
+            return;
+        }
+        
+        Zombie zombie = Zombie.getZombieInLocation(command.getSecondWord(), player.getLocation());
+        if (zombie == null) {
+            System.out.println("There is no " + command.getSecondWord() + " here.");
+            return;
+        }
+        
+        System.out.println(zombie.getSpeak());
+    }
 }

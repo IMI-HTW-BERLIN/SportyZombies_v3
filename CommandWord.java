@@ -17,6 +17,7 @@ public enum CommandWord
     TAKE("take"),
     DROP("drop"),
     ITEMS("items"),
+    ASK("ask"),
     UNKNOWN("");
     
     
