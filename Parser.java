@@ -61,6 +61,6 @@ public class Parser
      * @return The commands available.
      */
     public String getCommands(){
-        return commands.getCommands();
+        return CommandWord.getCommands();
     }
 }

@@ -303,16 +303,20 @@ public class Game
     private void take(Command command){
         if (!command.hasSecondWord()) {
             System.out.println("What do you want to take, Sir/Ma'am?");
-        }else{
-            if(player.getLocation().containsItem(command.getSecondWord())){
-                if(player.addItem(player.getLocation().takeItem(command.getSecondWord()))){
-                    System.out.println("You took: " + command.getSecondWord());
-                }else{
-                    System.out.println("You are carrying too much!");
-                }
-            }else{
-                System.out.println("There is no such item here!");
+            return;
+        }
+        
+        String itemName = command.getSecondWord();
+        if (player.getLocation().containsItem(itemName)) {
+            Item item = player.getLocation().takeItem(itemName);
+            if (player.addItem(item)) {
+                System.out.println("You took: " + command.getSecondWord());
+            } else {
+                player.getLocation().addItem(item);
+                System.out.println("You are carrying too much!");
             }
+        } else {
+            System.out.println("There is no such item here!");
         }
     }
     

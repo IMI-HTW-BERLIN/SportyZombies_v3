@@ -32,12 +32,12 @@ public enum CommandWord
         return this.command;
     }
     
-    public String getCommands(){
+    public static String getCommands(){
         String cmd = "";
         for(CommandWord command : CommandWord.values()){
             cmd += command.getCommand() + ", ";
         }
-        cmd = cmd.replaceAll(", $", "");        
+        cmd = cmd.replaceAll(", , $", "");        
         return cmd;
     }
     

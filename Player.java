@@ -32,7 +32,7 @@ public class Player extends Entity
         for (Item item : getInventory()) {
             sb.append(item.getName()).append("\n");
         }
-        sb.append("\nTotal weight: ").append(getInventoryWeight());
+        sb.append("\nTotal weight: ").append(getInventoryWeight()).append(" | " + strength);
         return sb.toString();
     }
     
