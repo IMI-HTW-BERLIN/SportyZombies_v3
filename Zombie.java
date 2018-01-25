@@ -38,10 +38,16 @@ public class Zombie extends Entity
     }
     
     public static String getZombiesInLocation(Location location) {
+        boolean zombiesFound = false;
         StringBuilder sb = new StringBuilder("NPCs:\n=====\n");
-        instances.stream().filter(zombie -> zombie.getLocation().equals(location))
-                          .map(zombie -> zombie.getName())
-                          .forEach(zombie -> sb.append((String)zombie).append("\n"));
-        return sb.toString();
+        for (Zombie zombie : instances) {
+            if (zombie.getLocation().equals(location)) {
+                sb.append(zombie.getName()).append("\n");
+                zombiesFound = true;
+            }
+        }
+        if (zombiesFound)
+            return sb.toString();
+        else return "";
     }
 }
