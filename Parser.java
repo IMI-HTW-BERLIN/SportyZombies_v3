@@ -19,7 +19,6 @@ import java.util.StringTokenizer;
  */
 public class Parser 
 {
-    private CommandWord commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
     /**
@@ -47,7 +46,7 @@ public class Parser
         // Find up to two words on the line.
         Scanner tokenizer = new Scanner(inputLine);
         if(tokenizer.hasNext()) {
-            word1 = commands.getEnum(tokenizer.next());      // get first word
+            word1 = CommandWord.getEnum(tokenizer.next());      // get first word
             if(tokenizer.hasNext()) {
                 word2 = tokenizer.next();      // get second word
                 // note: we just ignore the rest of the input line.
