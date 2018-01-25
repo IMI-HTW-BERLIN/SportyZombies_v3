@@ -7,11 +7,10 @@ public class Zombie extends Entity
     
     private String name;
     private String speak;
-    private Location location;
     
     public Zombie(String name, Location location, String speak) {
         this.name = name;
-        this.location = location;
+        setLocation(location);
         this.speak = speak;
         instances.add(this);
     }
@@ -22,10 +21,6 @@ public class Zombie extends Entity
     
     public String getSpeak() {
         return this.speak;
-    }
-    
-    public Location getLocation() {
-        return this.location;
     }
     
     public static Zombie getZombieInLocation(String name, Location location) {
