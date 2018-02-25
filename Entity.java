@@ -76,7 +76,7 @@ public abstract class Entity
      * @param itemName The item to drop
      * @return The dropped item
      */
-    public Item dropItem(String itemName){
+    public Item removeItem(String itemName){
         Item foundItem = null;
         for(Item item: inventory){
             if(item.getName().equalsIgnoreCase(itemName)){

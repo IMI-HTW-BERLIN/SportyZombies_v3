@@ -19,6 +19,7 @@ public enum CommandWord
     ITEMS("items"),
     ASK("ask"),
     LOOKAT("lookat"),
+    EAT("eat"),
     UNKNOWN("");
     
     

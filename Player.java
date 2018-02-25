@@ -48,6 +48,10 @@ public class Player extends Entity
         return history.empty();
     }
     
+    public void modifyStrength(int modifier) {
+        strength += modifier;
+    }
+    
     private int getInventoryWeight() {
         return getInventory().stream().mapToInt(i -> i.getWeight()).sum();
     }

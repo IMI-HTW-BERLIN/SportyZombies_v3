@@ -111,7 +111,7 @@ public class Location
         return false;
     }
     
-    public Item takeItem(String itemName){
+    public Item removeItem(String itemName){
         Item foundItem = null;
         for(Item item: items){
             if(item.getName().equalsIgnoreCase(itemName)){

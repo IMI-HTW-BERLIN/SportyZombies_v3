@@ -37,6 +37,7 @@ public class Game
     {
         Location trackN, trackW, trackS, trackE, soccer, longJump, shed;
         Item football, soccerball, shotball, throwingball, spear, discus, pylon, flag, pole, hammer;
+        FoodItem proteineBar;
         // create the Locations
         trackN = new Location("on the northern part of the tartan track");
         trackW = new Location("on the western part of the tartan track");
@@ -56,6 +57,8 @@ public class Game
         spear = new Item("spear",800,"In a pile you also notcie a spear.");
         throwingball = new Item("throwing_ball",200,"And a throwingball.");
         shotball = new Item("shot_put_ball",5000,"You recognise a shot put ball amongst everything else.");
+        
+        proteineBar = new FoodItem("proteine_bar", 50, "A proteine bar is lying on a table near you.", FoodTypes.STRENGTH_BOOST, 5000);
         
         // initialise Location exits
         trackN.addExit("west", trackW);
@@ -94,6 +97,7 @@ public class Game
         soccer.addItem(football);
         soccer.addItem(soccerball);
         soccer.addItem(spear);
+        soccer.addItem(proteineBar);
         
         longJump.addExit("north", trackS);
         longJump.addExit("east", shed);
@@ -184,6 +188,10 @@ public class Game
                 lookat(command);
                 break;
                 
+            case EAT:
+                eat(command);
+                break;
+                
             case UNKNOWN:
                 System.out.println("I don't know what you mean...");
                 return false;
@@ -271,7 +279,7 @@ public class Game
      * Look around. Prints out the long description of the current location.
      */
     private void look(){
-        System.out.println(player.getLocation().getItems() );
+        System.out.println(player.getLocation().getItems());
     }
     
     /**
@@ -308,7 +316,7 @@ public class Game
         
         String itemName = command.getSecondWord();
         if (player.getLocation().containsItem(itemName)) {
-            Item item = player.getLocation().takeItem(itemName);
+            Item item = player.getLocation().removeItem(itemName);
             if (player.addItem(item)) {
                 System.out.println("You took: " + command.getSecondWord());
             } else {
@@ -327,7 +335,7 @@ public class Game
             player.getLocation().addItems(player.dropAll());
         }else{
             if(player.hasItem(command.getSecondWord())){
-                player.getLocation().addItem(player.dropItem(command.getSecondWord()));
+                player.getLocation().addItem(player.removeItem(command.getSecondWord()));
             }else{
                 System.out.println("You don't have that item :(");
             }
@@ -372,6 +380,31 @@ public class Game
         } else if (player.getLocation().containsItem(itemName)) {
             System.out.println(player.getLocation().getItem(itemName).getDescription());
             return;
+        }
+    }
+    
+    private void eat(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("Eat what?");
+            return;
+        }
+        
+        String itemName = command.getSecondWord();
+        Item itemToEat = player.hasItem(itemName) ? player.getItem(itemName) : 
+                            player.getLocation().getItem(itemName);
+        
+        if (itemToEat == null) {
+            System.out.println("There is no such item in your inventory or near you!");
+            return;
+        }
+        
+        if (itemToEat instanceof FoodItem) {
+            player.removeItem(itemName);
+            player.getLocation().removeItem(itemName);
+            FoodItem item = (FoodItem)itemToEat;
+            item.eat(player);
+        } else {
+            System.out.println("You can't eat that!");
         }
     }
 }
