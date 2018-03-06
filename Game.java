@@ -117,7 +117,7 @@ public class Game
      *  Main play routine.  Loops until end of play.
      */
     public void play() 
-    {            
+    {   
         printWelcome();
         
         boolean finished = false;
@@ -125,8 +125,29 @@ public class Game
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing. Good bye.");
         
+    }
+    
+    public void playChallenge()
+    {
+        printWelcome();
+        
+        boolean finished = false;
+        
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + 300000;
+        
+        while (!finished) {
+            if (endTime < System.currentTimeMillis()) {
+                System.out.println("Game over! You ran out of time!");
+                break;
+            }
+            
+            Command command = parser.getCommand();
+            finished = processCommand(command);
+        }
+        System.out.println("Thank you for playing. Good bye.");
     }
 
     /**
