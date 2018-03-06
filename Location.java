@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 /**
  * Class Location - a Location in an adventure game.
  *
@@ -129,5 +130,13 @@ public class Location
      */
     public Location getExit(String exit){
         return exits.get(exit);
+    }
+    
+    /**
+     * Gets a collection containing all exit locations.
+     * @return The values from the exits HashMap.
+     */
+    public Collection<Location> getExitLocations() {
+        return exits.values();
     }
 }

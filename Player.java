@@ -48,6 +48,10 @@ public class Player extends Entity
         return history.empty();
     }
     
+    public void clearHistory() {
+        history.clear();
+    }
+    
     public void modifyStrength(int modifier) {
         strength += modifier;
     }

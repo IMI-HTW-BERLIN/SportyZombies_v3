@@ -63,7 +63,7 @@ public class Game
         // initialise Location exits
         trackN.addExit("west", trackW);
         trackN.addExit("east", trackE);
-        trackN.addExit("south", soccer);
+        //trackN.addExit("south", soccer);
         
         trackN.addItem(pylon);
         
@@ -273,7 +273,11 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            player.addLocationToHistory();
+            if (!nextLocation.getExitLocations().contains(player.getLocation())) {
+                player.clearHistory();
+            } else {
+                player.addLocationToHistory();
+            }
             player.setLocation(nextLocation);
             System.out.println(nextLocation.getLongDescription());
             System.out.println(Zombie.getZombiesInLocation(nextLocation));
@@ -322,7 +326,7 @@ public class Game
      
     private void back(){
         if(player.isHistoryEmpty()){
-            System.out.println("You are at the start!");
+            System.out.println("You can't go back any further!");
         }else{
             player.getLocationFromHistory();
             System.out.println(player.getLocation().getLongDescription());
